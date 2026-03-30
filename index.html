@@ -69,6 +69,23 @@
     <script>
       var canvas = document.querySelector("#unity-canvas");
 
+      function SendTelemetryToQualtrics(fieldName, payload) {
+        try {
+          window.parent.postMessage(
+            {
+              source: 'betting-simulator-webgl',
+              type: 'qualtrics_embedded_data',
+              field: fieldName,
+              payload: payload
+            },
+            '*'
+          );
+          console.log('[Unity->Qualtrics]', fieldName, payload);
+        } catch (err) {
+          console.error('SendTelemetryToQualtrics failed:', err);
+        }
+      }
+
       function unityShowBanner(msg, type) {
         var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
